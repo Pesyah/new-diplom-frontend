@@ -17,10 +17,21 @@ const login = async () => {
 </script>
 
 <template>
-  <div>
+  <div style="margin: 30% 40% 40% 40%; padding: 10px; width: 20%">
     <h1>Вход</h1>
-    <input v-model="email" placeholder="Email" />
-    <input v-model="password" type="password" placeholder="Пароль" />
-    <button @click="login">Войти</button>
+    <input
+      style="margin-bottom: 10px; padding: 5px; width: 20vw; font-size: 20px"
+      v-model="email"
+      placeholder="Email"
+    />
+    <br />
+    <input
+      style="margin-bottom: 10px; padding: 5px; width: 20vw; font-size: 20px"
+      v-model="password"
+      type="password"
+      placeholder="Пароль"
+    />
+    <br />
+    <button class="btn btn-primary" @click="login">Войти</button>
   </div>
 </template>
