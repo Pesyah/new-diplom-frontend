@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/stores/auth'
-import Dashboard from '@/views/Dashboard.vue'
-import Home from '@/views/Home.vue'
-import Login from '@/views/Login.vue'
+import Dashboard from '@/views/Dashboard-view.vue'
+import Home from '@/views/Home-view.vue'
+import Login from '@/views/Login-form.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -21,7 +21,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
-  if (to.meta.requiresAuth && !authStore.token) {
+  if (to.meta.requiresAuth && !authStore.access_token) {
     next('/login')
   } else {
     next()

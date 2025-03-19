@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
@@ -10,7 +10,7 @@ const router = useRouter()
 
 const login = async () => {
   await authStore.login(email.value, password.value)
-  if (authStore.token) {
+  if (authStore.access_token) {
     router.push('/dashboard')
   }
 }

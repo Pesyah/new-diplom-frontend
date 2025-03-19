@@ -3,23 +3,25 @@ import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null as { id: number; email: string } | null,
-    token: localStorage.getItem('token') || null,
+    access_token: localStorage.getItem('token') || null,
   }),
   actions: {
     async login(email: string, password: string) {
       try {
-        const response = await api.post('/auth/login', { email, password })
-        this.token = response.data.token
-        this.user = response.data.user
-        if (this.token) localStorage.setItem('token', this.token)
+        const response = await api.post(
+          '/auth/login',
+          { email, password },
+          { withCredentials: true },
+        )
+        console.log(response)
+        this.access_token = response.data.access_token
+        if (this.access_token) localStorage.setItem('access_token', this.access_token)
       } catch (error) {
         console.error('Ошибка авторизации', error)
       }
     },
     logout() {
-      this.token = null
-      this.user = null
+      this.access_token = null
       localStorage.removeItem('token')
     },
   },

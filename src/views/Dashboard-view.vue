@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
@@ -7,7 +7,7 @@ const authStore = useAuthStore()
 <template>
   <div>
     <h1>Личный кабинет</h1>
-    <p>Привет, {{ authStore.user?.email }}</p>
+    <p>Привет</p>
     <button @click="authStore.logout()">Выйти</button>
   </div>
 </template>
