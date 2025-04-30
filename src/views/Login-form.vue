@@ -9,8 +9,13 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const login = async () => {
-  await authStore.login(email.value, password.value)
-  if (authStore.access_token) {
+  authStore.logout()
+  const res: any = await authStore.login(email.value, password.value)
+  console.log(res)
+  if (res.status !== 201) {
+    alert('Ошибка авторизации.\n' + res.message)
+  }
+  if (res.status === 201) {
     router.push('/dashboard')
   }
 }
