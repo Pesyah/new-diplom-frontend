@@ -12,13 +12,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000', // адрес твоего NestJS-сервера
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://localhost:3000/api/', // целевой сервер
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, ''), // переписываем путь
+  //     },
+  //   },
+  // },
 })

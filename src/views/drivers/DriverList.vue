@@ -15,7 +15,7 @@ const drivers = ref<Driver[]>([])
 const router = useRouter()
 
 const fetchDrivers = async () => {
-  const res = await api.get('/api/drivers') // замени на свой эндпоинт
+  const res = await api.get('/drivers') // замени на свой эндпоинт
   drivers.value = res.data
   drivers.value = res.data
 }

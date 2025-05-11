@@ -11,7 +11,6 @@ const router = useRouter()
 const login = async () => {
   authStore.logout()
   const res: any = await authStore.login(email.value, password.value)
-  console.log(res)
   if (res.status !== 201) {
     alert('Ошибка авторизации.\n' + res.message)
   }

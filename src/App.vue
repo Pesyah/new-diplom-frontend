@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goToDashboard = () => {
+  router.push('/dashboard') // относительный путь
+}
 </script>
 
 <template>
+  <button @click="goToDashboard">На главную</button>
   <RouterView />
 </template>
 
@@ -16,5 +23,19 @@ import { RouterView } from 'vue-router'
   margin-top: 60px;
 }
 
-@import '../node_modules/bootstrap/scss/bootstrap';
+button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
 </style>

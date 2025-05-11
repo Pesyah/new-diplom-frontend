@@ -32,7 +32,7 @@ const form = ref<Driver>({
 })
 
 const fetchDriver = async () => {
-  const res = await api.get(`/api/drivers/${id}`)
+  const res = await api.get(`/drivers/${id}`)
   const data = res.data
 
   // Преобразуем driverLicense в строковый массив, если нужно
@@ -51,8 +51,10 @@ const updateDriver = async () => {
     ...form.value,
     driverLicense: form.value.driverLicense.map((id) => Number(id)), // преобразуем обратно
   }
-
-  await api.put(`/api/drivers/${id}`, payload)
+  delete payload['id']
+  delete payload['created_at']
+  delete payload['updated_at']
+  await api.patch(`/drivers/${id}`, payload)
   router.push('/drivers')
 }
 </script>

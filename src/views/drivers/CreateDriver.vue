@@ -102,7 +102,7 @@ const submitForm = async () => {
       salary: form.value.salary,
     }
 
-    await api.post('/api/drivers', payload)
+    await api.post('/drivers', payload)
     alert('Водитель создан!')
   } catch (err) {
     console.error(err)
