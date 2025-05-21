@@ -33,13 +33,11 @@ const routes = [
   {
     path: '/cart',
     component: CartPage,
-    meta: { requiresAuth: true },
   },
   {
     path: '/products',
     name: 'ProductList',
     component: ProductList,
-    meta: { requiresAuth: true },
   },
 ]
 

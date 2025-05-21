@@ -16,7 +16,7 @@
         </li>
       </ul>
 
-      <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded" @click="sendOrder">
+      <button class="mt-4 bg-green-600 px-4 py-2 rounded" @click="sendOrder">
         Отправить заказ
       </button>
 
@@ -38,7 +38,9 @@ import { useCartStore } from '@/stores/cart'
 import { onMounted, ref } from 'vue'
 import api from '@/services/api'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
 const cartStore = useCartStore()
 const cartItems = cartStore.items
 const router = useRouter()
@@ -65,6 +67,18 @@ const removeItem = (productId: string) => {
 }
 
 const sendOrder = async () => {
+  console.log(authStore)
+  if (!authStore.access_token) {
+    // Пользователь не залогинен
+    const goToLogin = confirm(
+      'Для отправки заказа нужно войти в систему. Перейти на страницу авторизации?',
+    )
+    if (goToLogin) {
+      router.push('/login')
+    }
+    return
+  }
+
   try {
     await api.post('/orders', {
       orderPart: cartItems.map(({ product, count }) => ({ product, count })),

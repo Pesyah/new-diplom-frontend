@@ -53,7 +53,7 @@ import { useCartStore } from '@/stores/cart'
 const cartStore = useCartStore()
 
 const addToCart = (product) => {
-  cartStore.addItem(product.id)
+  cartStore.addToCart(product.id)
 }
 
 onMounted(fetchProducts)
