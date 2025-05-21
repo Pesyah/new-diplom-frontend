@@ -13,6 +13,10 @@ const logout = () => {
   authStore.logout() // Выполняем логику выхода
   router.push('/login') // Перенаправляем на страницу логина
 }
+
+const goToProducts = () => {
+  router.push('/products')
+}
 </script>
 
 <template>
@@ -21,6 +25,9 @@ const logout = () => {
     <p>Привет</p>
     <div class="flex-column">
       <button @click="logout" class="btn btn-primary">Выйти</button>
+      <button class="mt-4 bg-blue-600 px-4 py-2 rounded" @click="goToProducts">
+        Выбрать продукты
+      </button>
       <button @click="goToCreateDriver" class="btn btn-primary">Создать водителя</button>
     </div>
     <div class="flex-column">

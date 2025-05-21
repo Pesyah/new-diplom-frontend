@@ -18,6 +18,10 @@ const login = async () => {
     router.push('/dashboard')
   }
 }
+
+const goToRegister = () => {
+  router.push('/register')
+}
 </script>
 
 <template>
@@ -37,5 +41,9 @@ const login = async () => {
     />
     <br />
     <button class="btn btn-primary" @click="login">Войти</button>
+    <br />
+    <button class="btn btn-secondary" @click="goToRegister" style="margin-top: 10px">
+      Зарегистрироваться
+    </button>
   </div>
 </template>

@@ -6,10 +6,17 @@ const router = useRouter()
 const goToDashboard = () => {
   router.push('/dashboard') // относительный путь
 }
+
+const goToCart = () => {
+  router.push('/cart')
+}
 </script>
 
 <template>
-  <button @click="goToDashboard">На главную</button>
+  <button class="btn btn-primary" @click="goToDashboard">На главную</button>
+  <button class="btn btn-primary" style="margin-left: 8vw" @click="goToCart">
+    Перейти в корзину
+  </button>
   <RouterView />
 </template>
 
