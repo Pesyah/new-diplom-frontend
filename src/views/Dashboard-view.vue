@@ -1,35 +1,50 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import api from '@/services/api'
 
-const authStore = useAuthStore()
-const router = useRouter()
-
-const goToCreateDriver = () => {
-  router.push('/drivers/create')
+interface UserInfo {
+  name: string
+  surname: string
+  phone: string
+  avatar: string
 }
 
-const logout = () => {
-  authStore.logout() // Выполняем логику выхода
-  router.push('/login') // Перенаправляем на страницу логина
+const userInfo = ref<UserInfo | null>(null)
+
+const fetchUserInfo = async () => {
+  try {
+    const response = await api.get('auth/user-info')
+    userInfo.value = response.data
+  } catch (e) {
+    console.error('Ошибка при загрузке информации о пользователе', e)
+  }
 }
+
+onMounted(fetchUserInfo)
 </script>
 
 <template>
-  <div class="dashboard">
-    <h1>Личный кабинет</h1>
-    <p>Привет</p>
-    <div class="flex-column">
-      <button @click="logout" class="btn btn-primary">Выйти</button>
-      <button @click="goToCreateDriver" class="btn btn-primary">Создать водителя</button>
+  <div class="dashboard container mt-5 text-light">
+    <h1 class="mb-4">Личный кабинет</h1>
+
+    <div v-if="userInfo" class="card bg-dark text-light p-4">
+      <div class="text-center mb-4" v-if="userInfo.avatar">
+        <img
+          :src="userInfo.avatar"
+          alt="Аватар"
+          class="rounded-circle"
+          style="width: 120px; height: 120px; object-fit: cover"
+        />
+      </div>
+      <p><strong>Имя:</strong> {{ userInfo.name }}</p>
+      <p><strong>Фамилия:</strong> {{ userInfo.surname }}</p>
+      <p><strong>Телефон:</strong> {{ userInfo.phone }}</p>
     </div>
-    <div class="flex-column">
-      <button class="btn btn-secondary" @click="router.push('/drivers')">Список водителей</button>
-      <!-- Можно добавлять другие элементы сюда -->
+
+    <div v-else class="text-center mt-5">
+      <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Загрузка...</span>
+      </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Уникальные стили компонента */
-</style>

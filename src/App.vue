@@ -1,16 +1,48 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
 
 const router = useRouter()
+const authStore = useAuthStore()
+
+const isLoggedIn = computed(() => !!authStore.access_token) // Или authStore.user
 
 const goToDashboard = () => {
-  router.push('/dashboard') // относительный путь
+  router.push('/dashboard')
+}
+
+const goToCart = () => {
+  router.push('/trips')
+}
+
+const logout = () => {
+  authStore.logout()
+  router.push('/login')
 }
 </script>
 
 <template>
-  <button @click="goToDashboard">На главную</button>
-  <RouterView />
+  <div>
+    <template v-if="isLoggedIn">
+      <button class="btn btn-primary" @click="goToDashboard">На главную</button>
+      <button class="btn btn-primary" style="margin-top: 5vh" @click="goToCart">
+        Перейти в поездки
+      </button>
+      <button style="margin-top: 10vh" class="btn btn-primary" @click="router.push('/drivers')">
+        Водители
+      </button>
+      <button style="margin-top: 15vh" class="btn btn-primary" @click="router.push('/trucks')">
+        Грузовики
+      </button>
+      <button style="margin-top: 20vh" class="btn btn-primary" @click="router.push('/trailers')">
+        Прицепы
+      </button>
+      <button style="margin-top: 25vh" @click="logout" class="btn btn-primary">Выйти</button>
+    </template>
+
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>

@@ -24,33 +24,42 @@ const goToEdit = (id: number) => {
   router.push(`/drivers/edit/${id}`)
 }
 
+const goToCreateDriver = () => {
+  router.push('/drivers/create')
+}
+
 onMounted(fetchDrivers)
 </script>
 
 <template>
-  <div class="container mt-5">
+  <div class="container mt-4">
+    <div class="mb-4">
+      <button @click="goToCreateDriver" class="btn btn-primary">Создать водителя</button>
+    </div>
+
     <h2 class="mb-4">Список водителей</h2>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ФИО</th>
-          <th>Телефон</th>
-          <th>Доступен</th>
-          <th>Действия</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="driver in drivers" :key="driver.id">
-          <td>{{ driver.fullName }}</td>
-          <td>{{ driver.phone }}</td>
-          <td>{{ driver.isAvailable ? 'Да' : 'Нет' }}</td>
-          <td>
-            <button class="btn btn-sm btn-warning" @click="goToEdit(driver.id)">
+
+    <div class="row justify-content-start">
+      <div v-for="driver in drivers" :key="driver.id" class="col-md-6 col-lg-12 mb-3">
+        <div
+          class="card bg-dark text-light shadow-sm border-start border-4"
+          :class="driver.isAvailable ? 'border-success' : 'border-danger'"
+        >
+          <div class="card-body">
+            <h5 class="card-title mb-1">{{ driver.fullName }}</h5>
+            <p class="card-text mb-1"><strong>Телефон:</strong> {{ driver.phone }}</p>
+            <p class="card-text">
+              <strong>Доступен: </strong>
+              <span :class="driver.isAvailable ? 'text-success' : 'text-danger'">
+                {{ driver.isAvailable ? 'Да' : 'Нет' }}
+              </span>
+            </p>
+            <button class="btn btn-outline-warning btn-sm" @click="goToEdit(driver.id)">
               Редактировать
             </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

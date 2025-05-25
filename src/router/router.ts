@@ -5,6 +5,15 @@ import DriverList from '@/views/drivers/DriverList.vue'
 import EditDriver from '@/views/drivers/EditDriver.vue'
 import Home from '@/views/Home-view.vue'
 import Login from '@/views/Login-form.vue'
+import TrailerCreate from '@/views/trailers/TrailerCreate.vue'
+import TrailerEdit from '@/views/trailers/TrailerEdit.vue'
+import TrailerList from '@/views/trailers/TrailerList.vue'
+import TripsCreate from '@/views/trips/TripsCreate.vue'
+import TripsEdit from '@/views/trips/TripsEdit.vue'
+import TripsList from '@/views/trips/TripsList.vue'
+import TruckCreate from '@/views/trucks/TruckCreate.vue'
+import TruckEdit from '@/views/trucks/TruckEdit.vue'
+import TrucksList from '@/views/trucks/TrucksList.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -22,6 +31,27 @@ const routes = [
   },
   { path: '/drivers', component: DriverList, meta: { requiresAuth: true } },
   { path: '/drivers/edit/:id', component: EditDriver, meta: { requiresAuth: true } },
+  { path: '/trucks', component: TrucksList, meta: { requiresAuth: true } },
+  {
+    path: '/trucks/create',
+    component: TruckCreate,
+    meta: { requiresAuth: true },
+  },
+  { path: '/trucks/edit/:id', component: TruckEdit, meta: { requiresAuth: true } },
+  { path: '/trailers', component: TrailerList, meta: { requiresAuth: true } },
+  {
+    path: '/trailers/create',
+    component: TrailerCreate,
+    meta: { requiresAuth: true },
+  },
+  { path: '/trailers/edit/:id', component: TrailerEdit, meta: { requiresAuth: true } },
+  { path: '/trips', component: TripsList, meta: { requiresAuth: true } },
+  {
+    path: '/trips/create',
+    component: TripsCreate,
+    meta: { requiresAuth: true },
+  },
+  { path: '/trips/edit/:id', component: TripsEdit, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({

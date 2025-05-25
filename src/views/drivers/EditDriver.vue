@@ -35,7 +35,6 @@ const fetchDriver = async () => {
   const res = await api.get(`/drivers/${id}`)
   const data = res.data
 
-  // Преобразуем driverLicense в строковый массив, если нужно
   form.value = {
     ...data,
     driverLicense: Array.isArray(data.driverLicense)
@@ -133,8 +132,13 @@ const updateDriver = async () => {
       </div>
 
       <div class="text-end">
+        <button style="margin-right: 13vw" class="btn btn-danger" @click="router.push('/drivers')">
+          Назад
+        </button>
         <button type="submit" class="btn btn-success">Сохранить</button>
       </div>
+
+      <div class="text-end"></div>
     </form>
   </div>
 </template>
