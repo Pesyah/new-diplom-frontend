@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     access_token: localStorage.getItem('access_token') || null,
-    user: null as null | { id: number; email: string; role: string },
+    user: null as null | { id: number; email: string; role: number },
   }),
 
   actions: {
@@ -53,6 +53,7 @@ export const useAuthStore = defineStore('auth', {
     async fetchUser() {
       try {
         const response = await api.get('/auth/me')
+        response.data['role'] = response.data['roleType']['id']
         this.user = response.data
       } catch (error) {
         console.error('Ошибка при получении пользователя:', error)
@@ -67,6 +68,6 @@ export const useAuthStore = defineStore('auth', {
   },
 
   getters: {
-    isAdmin: (state) => state.user?.role === 'admin',
+    isAdmin: (state) => state.user?.role === 2,
   },
 })
