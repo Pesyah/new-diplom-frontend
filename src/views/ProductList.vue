@@ -1,34 +1,49 @@
 <template>
-  <div class="p-4">
-    <!-- Поиск -->
+  <div class="container py-4">
+    <h1 class="mb-4 text-white">Каталог продуктов</h1>
+
     <input
+      type="text"
+      class="form-control mb-4 bg-dark text-white border-secondary"
       v-model="searchQuery"
-      placeholder="Поиск продуктов"
-      class="border px-2 py-1 mb-4 w-full"
+      placeholder="Поиск по названию..."
     />
 
-    <!-- Список продуктов -->
-    <div v-if="filteredProducts.length">
-      <ul>
-        <li
-          v-for="product in filteredProducts"
-          :key="product.id"
-          class="flex justify-between items-center border-b py-2"
-        >
-          <span>{{ product.name }}</span>
-          <button class="bg-blue-500 text-white px-2 py-1 rounded" @click="addToCart(product)">
-            Добавить в корзину
-          </button>
-        </li>
-      </ul>
+    <div class="row g-4">
+      <div class="col-md-6" v-for="product in filteredProducts" :key="product.id">
+        <div class="card bg-dark text-white border border-secondary shadow-sm h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title mb-1 text-truncate">{{ product.name }}</h5>
+            <h6 class="card-subtitle text-muted mb-2 text-truncate text-light">
+              {{ product.category.name }}
+            </h6>
+
+            <p
+              class="card-text small flex-grow-1 overflow-hidden"
+              style="max-height: 4.5em"
+              :title="product.description"
+            >
+              {{ product.description }}
+            </p>
+
+            <div class="mt-2">
+              <strong class="text-success">{{ product.price }} ₽</strong>
+            </div>
+
+            <button class="btn btn-success mt-2 text-white" @click="addToCart(product)">
+              Добавить в корзину
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div v-else>Продукты не найдены.</div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import api from '@/services/api'
+import { useCartStore } from '@/stores/cart'
 
 const products = ref([])
 const searchQuery = ref('')
@@ -48,10 +63,7 @@ const fetchProducts = async () => {
   }
 }
 
-// Вместо локального cart тут будет вызов на добавление в глобальный cart-store
-import { useCartStore } from '@/stores/cart'
 const cartStore = useCartStore()
-
 const addToCart = (product) => {
   cartStore.addToCart(product.id)
 }

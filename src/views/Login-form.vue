@@ -9,7 +9,7 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const login = async () => {
-  authStore.logout()
+  await authStore.logout()
   const res: any = await authStore.login(email.value, password.value)
   if (res.status !== 201) {
     alert('Ошибка авторизации.\n' + res.message)
