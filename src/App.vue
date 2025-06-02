@@ -16,6 +16,10 @@ const goToCart = () => {
   router.push('/cart')
 }
 
+const goToOrders = () => {
+  router.push('/orders')
+}
+
 const logout = () => {
   authStore.logout()
   router.push('/login')
@@ -34,7 +38,10 @@ const isUser = computed(() => authStore.user?.role === 1)
     <button class="btn btn-primary" @click="router.push('/login')">Войти</button>
     <template v-if="isLoggedIn">
       <button class="btn btn-primary" @click="goToDashboard">На главную</button>
-      <button v-if="isUser" class="btn btn-primary" style="margin-left: 8vw" @click="goToCart">
+      <button v-if="isUser" class="btn btn-primary" style="margin-left: 5vw" @click="goToOrders">
+        Мои заказы
+      </button>
+      <button v-if="isUser" class="btn btn-primary" style="margin-left: 10vw" @click="goToCart">
         Перейти в корзину
       </button>
       <button v-if="isAdmin" class="btn btn-secondary" @click="router.push('/products-admin')">

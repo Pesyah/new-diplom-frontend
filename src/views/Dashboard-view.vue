@@ -9,8 +9,12 @@ const router = useRouter()
 const goToProducts = () => {
   router.push('/products')
 }
+const goToProductsAdmin = () => {
+  router.push('/products-admin')
+}
 
 const isUser = computed(() => authStore.user?.role === 1)
+const isAdmin = computed(() => authStore.user?.role === 2)
 </script>
 
 <template>
@@ -18,6 +22,9 @@ const isUser = computed(() => authStore.user?.role === 1)
     <div class="flex-column">
       <button v-if="isUser" class="mt-4 bg-blue-600 px-4 py-2 rounded" @click="goToProducts">
         Выбрать продукты
+      </button>
+      <button v-if="isAdmin" class="mt-4 bg-blue-600 px-4 py-2 rounded" @click="goToProductsAdmin">
+        Продукты
       </button>
     </div>
   </div>

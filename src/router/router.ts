@@ -3,9 +3,14 @@ import CartPage from '@/views/CartPage.vue'
 import DashboardView from '@/views/Dashboard-view.vue'
 import Home from '@/views/Home-view.vue'
 import Login from '@/views/Login-form.vue'
+import OrderDetail from '@/views/orders/OrderDetail.vue'
+import OrdersList from '@/views/orders/OrdersList.vue'
 import ProductList from '@/views/ProductList.vue'
+import CreateProductAdmin from '@/views/products/CreateProductAdmin.vue'
+import EditProductAdmin from '@/views/products/EditProductAdmin.vue'
 import ProductListAdmin from '@/views/products/ProductListAdmin.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
+import UserProductView from '@/views/UserProductView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -37,6 +42,36 @@ const routes = [
     path: '/products-admin',
     name: 'ProductListAdmin',
     component: ProductListAdmin,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/products-admin/create',
+    name: 'CreateProductAdmin',
+    component: CreateProductAdmin,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/products-admin/edit/:id',
+    name: 'EditProductAdmin',
+    component: EditProductAdmin,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/products/:id',
+    name: 'UserProductView',
+    component: UserProductView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/orders',
+    name: 'OrdersList',
+    component: OrdersList,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/orders-detail/:id',
+    name: 'OrderDetail',
+    component: OrderDetail,
     meta: { requiresAuth: true },
   },
 ]

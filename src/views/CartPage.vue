@@ -34,7 +34,6 @@ const removeItem = (productId: string) => {
 
 const sendOrder = async () => {
   if (!authStore.user) {
-    // Пользователь не залогинен
     const goToLogin = confirm(
       'Для отправки заказа нужно войти в систему. Перейти на страницу авторизации?',
     )
@@ -46,7 +45,7 @@ const sendOrder = async () => {
 
   try {
     await api.post('/orders', {
-      orderPart: cartItems.map(({ product, count }) => ({ product, count })),
+      orderPart: cartStore.items.map(({ product, count }) => ({ product, count })),
     })
     alert('Заказ отправлен!')
     cartStore.clearCart()
