@@ -5,6 +5,7 @@ import Home from '@/views/Home-view.vue'
 import Login from '@/views/Login-form.vue'
 import OrderDetail from '@/views/orders/OrderDetail.vue'
 import OrdersList from '@/views/orders/OrdersList.vue'
+import OrdersListAdmin from '@/views/orders/OrdersListAdmin.vue'
 import ProductList from '@/views/ProductList.vue'
 import CreateProductAdmin from '@/views/products/CreateProductAdmin.vue'
 import EditProductAdmin from '@/views/products/EditProductAdmin.vue'
@@ -30,13 +31,13 @@ const routes = [
   {
     path: '/cart',
     component: CartPage,
-    meta: { requiresAuth: true },
+    // meta: { requiresAuth: true },
   },
   {
     path: '/products',
     name: 'ProductList',
     component: ProductList,
-    meta: { requiresAuth: true },
+    // meta: { requiresAuth: true },
   },
   {
     path: '/products-admin',
@@ -74,6 +75,12 @@ const routes = [
     component: OrderDetail,
     meta: { requiresAuth: true },
   },
+  {
+    path: '/orders-admin',
+    name: 'OrdersListAdmin',
+    component: OrdersListAdmin,
+    meta: { requiresAuth: true },
+  },
 ]
 
 const router = createRouter({
@@ -95,8 +102,6 @@ router.beforeEach((to, from, next) => {
       console.log(e)
       if (to.path !== '/login') {
         next('/login')
-      } else {
-        next() // Если пользователь уже на /login, не перенаправляем
       }
     }
     next()

@@ -13,7 +13,7 @@
         </p>
         <h4 class="text-success mt-4">{{ product.price }} ₽</h4>
 
-        <button class="btn btn-success mt-3 text-white" @click="addToCart(product)">
+        <button v-if="isUser" class="btn btn-success mt-3 text-white" @click="addToCart(product)">
           <i class="bi bi-cart-plus"></i> Добавить в корзину
         </button>
 
@@ -30,10 +30,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import api from '@/services/api'
 import { useCartStore } from '@/stores/cart'
+import { useAuthStore } from '../stores/auth'
+
+const authStore = useAuthStore()
+
+const isUser = computed(() => authStore.user?.role === 1)
 
 interface Category {
   id: number
@@ -63,7 +68,6 @@ const fetchProduct = async () => {
 
 onMounted(fetchProduct)
 
-// --- Добавление в корзину ---
 const cartStore = useCartStore()
 
 const addToCart = (product: Product) => {

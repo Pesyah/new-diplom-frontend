@@ -57,6 +57,8 @@ export const useAuthStore = defineStore('auth', {
         this.user = response.data
       } catch (error) {
         console.error('Ошибка при получении пользователя:', error)
+        this.logout()
+        return error
       }
     },
 

@@ -12,8 +12,8 @@
 
         <h5 class="mt-4 text-white">Пользователь:</h5>
         <ul class="mb-3">
-          <li>
-            <strong class="text-white">ФИО:</strong> {{ order.user.surname }} {{ order.user.name }}
+          <li class="text-white">
+            <strong>ФИО:</strong> {{ order.user.surname }} {{ order.user.name }}
           </li>
           <li class="text-white"><strong>Email:</strong> {{ order.user.email }}</li>
           <li class="text-white"><strong>Телефон:</strong> {{ order.user.phone }}</li>
@@ -27,7 +27,7 @@
           </li>
         </ul>
 
-        <h4 class="mt-3 text-success">Итог: {{ totalPrice }} ₽</h4>
+        <h4 class="mt-3 text-success">Итог: {{ order.price }} ₽</h4>
 
         <div v-if="isAdmin" class="mt-4 d-flex gap-2">
           <button class="btn btn-outline-success" @click="approveOrder">
@@ -35,6 +35,14 @@
           </button>
           <button class="btn btn-outline-danger" @click="rejectOrder">
             <i class="bi bi-x-circle"></i> Отклонить
+          </button>
+          <button class="btn btn-outline-warning" @click="deleteOrderAdmin">
+            <i class="bi bi-trash"></i> Удалить заказ
+          </button>
+        </div>
+        <div v-if="isUser" class="mt-4 d-flex gap-2">
+          <button class="btn btn-outline-warning" @click="deleteOrder">
+            <i class="bi bi-trash"></i> Удалить заказ
           </button>
         </div>
       </div>
@@ -59,6 +67,7 @@ const authStore = useAuthStore()
 const order = ref(null)
 
 const isAdmin = computed(() => authStore.user?.role === 2)
+const isUser = computed(() => authStore.user?.role === 1)
 
 const fetchOrder = async () => {
   try {
@@ -70,21 +79,13 @@ const fetchOrder = async () => {
   }
 }
 
-const totalPrice = computed(() => {
-  if (!order.value) return 0
-  return order.value.orderPart.reduce(
-    (sum, part) => sum + part.count * parseFloat(part.product.price),
-    0,
-  )
-})
-
 const formatDate = (dateStr: string) => {
   return new Date(dateStr).toLocaleString('ru-RU')
 }
 
 const approveOrder = async () => {
   try {
-    await api.patch(`/orders/${order.value.id}/status`, { statusId: 2 }) // 2 = Одобрен
+    await api.patch(`/orders/approve/${order.value.id}`)
     alert('Заказ одобрен')
     await fetchOrder()
   } catch (err) {
@@ -95,11 +96,37 @@ const approveOrder = async () => {
 
 const rejectOrder = async () => {
   try {
-    await api.patch(`/orders/${order.value.id}/status`, { statusId: 3 }) // 3 = Отклонён
+    await api.patch(`/orders/reject/${order.value.id}`)
     alert('Заказ отклонён')
     await fetchOrder()
   } catch (err) {
     alert('Ошибка при отклонении заказа')
+    console.error(err)
+  }
+}
+
+const deleteOrderAdmin = async () => {
+  if (!confirm('Вы уверены, что хотите удалить этот заказ?')) return
+
+  try {
+    await api.delete(`/orders/admin-remove/${order.value.id}`)
+    alert('Заказ удалён')
+    router.push('/orders-admin')
+  } catch (err) {
+    alert('Ошибка при удалении заказа')
+    console.error(err)
+  }
+}
+
+const deleteOrder = async () => {
+  if (!confirm('Вы уверены, что хотите удалить этот заказ?')) return
+
+  try {
+    await api.delete(`/orders/${order.value.id}`)
+    alert('Заказ удалён')
+    router.push('/orders')
+  } catch (err) {
+    alert('Ошибка при удалении заказа')
     console.error(err)
   }
 }
