@@ -40,7 +40,7 @@
           <td>{{ car.odometer.toLocaleString() }} км</td>
           <td>{{ +car.pricePerDay }} ₽</td>
           <td>
-            <router-link :to="`/cars/${car.id}`" class="btn btn-sm btn-outline-primary"
+            <router-link :to="`/cars/edit/${car.id}`" class="btn btn-sm btn-outline-primary"
               >Открыть</router-link
             >
           </td>

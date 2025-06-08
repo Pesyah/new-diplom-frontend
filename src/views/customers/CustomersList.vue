@@ -42,7 +42,7 @@ onMounted(onLoadPage)
       </p>
       <p><strong>Телефон:</strong> {{ customer.phone }}</p>
       <p><strong>Адрес:</strong> {{ customer.address }}</p>
-      <button class="btn btn-primary" @click="router.push(`/customers/${customer.id}`)">
+      <button class="btn btn-primary" @click="router.push(`/customers/edit/${customer.id}`)">
         Открыть
       </button>
     </div>

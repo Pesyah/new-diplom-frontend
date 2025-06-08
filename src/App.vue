@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
+const isLoggedIn = computed(() => !!authStore.access_token)
+
+const logout = () => {
+  authStore.logout()
+  router.push('/login')
+}
 const goToDashboard = () => {
-  router.push('/dashboard') // относительный путь
+  router.push('/dashboard')
 }
 </script>
 
 <template>
-  <button @click="goToDashboard">На главную</button>
+  <template v-if="isLoggedIn">
+    <button class="btn btn-danger" @click="logout">Выйти</button>
+    <button style="margin-left: 5vw" @click="goToDashboard">На главную</button>
+  </template>
   <RouterView />
 </template>
 
