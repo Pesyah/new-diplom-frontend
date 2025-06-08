@@ -1,8 +1,8 @@
 import { useAuthStore } from '@/stores/auth'
+import CarCreate from '@/views/cars/CarCreate.vue'
+import CarDetail from '@/views/cars/CarDetail.vue'
+import CarList from '@/views/cars/CarList.vue'
 import DashboardView from '@/views/Dashboard-view.vue'
-import CreateDriver from '@/views/drivers/CreateDriver.vue'
-import DriverList from '@/views/drivers/DriverList.vue'
-import EditDriver from '@/views/drivers/EditDriver.vue'
 import Home from '@/views/Home-view.vue'
 import Login from '@/views/Login-form.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -16,12 +16,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/drivers/create',
-    component: CreateDriver,
+    path: '/cars/create',
+    component: CarCreate,
     meta: { requiresAuth: true },
   },
-  { path: '/drivers', component: DriverList, meta: { requiresAuth: true } },
-  { path: '/drivers/edit/:id', component: EditDriver, meta: { requiresAuth: true } },
+  { path: '/cars', component: CarList, meta: { requiresAuth: true } },
+  { path: '/cars/edit/:id', component: CarDetail, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({
