@@ -2,6 +2,8 @@ import { useAuthStore } from '@/stores/auth'
 import CarCreate from '@/views/cars/CarCreate.vue'
 import CarDetail from '@/views/cars/CarDetail.vue'
 import CarList from '@/views/cars/CarList.vue'
+import CustomersCreate from '@/views/customers/CustomersCreate.vue'
+import CustomersList from '@/views/customers/CustomersList.vue'
 import DashboardView from '@/views/Dashboard-view.vue'
 import Home from '@/views/Home-view.vue'
 import Login from '@/views/Login-form.vue'
@@ -22,6 +24,13 @@ const routes = [
   },
   { path: '/cars', component: CarList, meta: { requiresAuth: true } },
   { path: '/cars/edit/:id', component: CarDetail, meta: { requiresAuth: true } },
+  {
+    path: '/customers/create',
+    component: CustomersCreate,
+    meta: { requiresAuth: true },
+  },
+  { path: '/customers', component: CustomersList, meta: { requiresAuth: true } },
+  { path: '/customers/edit/:id', component: CarDetail, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({

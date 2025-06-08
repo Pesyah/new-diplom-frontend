@@ -1,35 +1,73 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 
-const authStore = useAuthStore()
 const router = useRouter()
 
-const goToCreateDriver = () => {
-  router.push('/drivers/create')
+const goToCreateCars = () => {
+  router.push('/cars/create')
 }
 
-const logout = () => {
-  authStore.logout() // Выполняем логику выхода
-  router.push('/login') // Перенаправляем на страницу логина
+const goToCarList = () => {
+  router.push('/cars')
+}
+
+const goToCustomers = () => {
+  router.push('/customers')
 }
 </script>
 
 <template>
-  <div class="dashboard">
-    <h1>Личный кабинет</h1>
-    <p>Привет</p>
-    <div class="flex-column">
-      <button @click="logout" class="btn btn-primary">Выйти</button>
-      <button @click="goToCreateDriver" class="btn btn-primary">Создать водителя</button>
-    </div>
-    <div class="flex-column">
-      <button class="btn btn-secondary" @click="router.push('/drivers')">Список водителей</button>
-      <!-- Можно добавлять другие элементы сюда -->
+  <div class="container mt-5">
+    <h1 class="mb-5">Личный кабинет</h1>
+
+    <div class="row justify-content-center gy-4">
+      <!-- Машины -->
+      <div class="col-md-5">
+        <div class="card h-100 shadow-lg rounded-4">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h3 class="card-title mb-3">Машины</h3>
+            <p class="card-text mb-4">Создание новых машин и просмотр списка.</p>
+            <div class="d-flex gap-3">
+              <button class="btn btn-primary flex-fill" @click="goToCreateCars">
+                Создать машину
+              </button>
+              <button class="btn btn-outline-primary flex-fill" @click="goToCarList">
+                Список машин
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Заказчики -->
+      <div class="col-md-5">
+        <div class="card h-100 shadow-lg rounded-4">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h3 class="card-title mb-3">Заказчики</h3>
+            <p class="card-text mb-4">Управление заказчиками.</p>
+            <button class="btn btn-primary w-100" @click="goToCustomers">
+              Перейти к заказчикам
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Аренда -->
+      <div class="col-md-5">
+        <div class="card h-100 shadow-lg rounded-4">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h3 class="card-title mb-3">Аренда</h3>
+            <p class="card-text mb-4">Функционал аренды в разработке.</p>
+            <button class="btn btn-secondary w-100" disabled>В разработке</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Уникальные стили компонента */
+.card {
+  min-height: 250px;
+}
 </style>
