@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import api from '@/services/api'
 import { useRouter } from 'vue-router'
 
@@ -9,13 +9,22 @@ const customer = ref(null)
 
 watch(searchQuery, async (q) => {
   try {
-    const res = await api.get(`/customers/by-query/${encodeURIComponent(q)}`)
+    const res = await api.get(`/customers/by-query/?query=${encodeURIComponent(q)}`)
+    customer.value = res.data
+  } catch {
+    console.log(123)
+    customer.value = null
+  }
+})
+const onLoadPage = async () => {
+  try {
+    const res = await api.get(`/customers/by-query/`)
     customer.value = res.data
   } catch {
     customer.value = null
   }
-})
-onMounted()
+}
+onMounted(onLoadPage)
 </script>
 
 <template>
