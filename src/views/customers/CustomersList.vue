@@ -5,50 +5,59 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const searchQuery = ref('')
-const customer = ref(null)
+const customers = ref([])
 
 watch(searchQuery, async (q) => {
+  if (!q.trim()) {
+    customers.value = []
+    return
+  }
+
   try {
-    const res = await api.get(`/customers/by-query/?query=${encodeURIComponent(q)}`)
-    customer.value = res.data
+    const res = await api.get(`/customers/by-query`, {
+      params: { query: q },
+    })
+    customers.value = res.data
   } catch {
-    console.log(123)
-    customer.value = null
+    customers.value = []
   }
 })
+
 const onLoadPage = async () => {
   try {
-    const res = await api.get(`/customers/by-query/`)
-    customer.value = res.data
+    const res = await api.get(`/customers/by-query`)
+    customers.value = res.data
   } catch {
-    customer.value = null
+    customers.value = []
   }
 }
+
 onMounted(onLoadPage)
 </script>
 
 <template>
   <div class="container mt-4">
     <h1 class="mb-3">Поиск заказчиков</h1>
+
     <input
       v-model="searchQuery"
       class="form-control mb-3"
       placeholder="Введите имя, фамилию или отчество"
     />
 
-    <div v-if="customer" class="card p-3 mb-3">
-      <p>
-        <strong>ФИО:</strong> {{ customer.surname }} {{ customer.name }} {{ customer.lastName }}
-      </p>
-      <p><strong>Телефон:</strong> {{ customer.phone }}</p>
-      <p><strong>Адрес:</strong> {{ customer.address }}</p>
-      <button class="btn btn-primary" @click="router.push(`/customers/edit/${customer.id}`)">
+    <div v-if="customers.length === 0" class="text-muted mb-3">Ничего не найдено</div>
+
+    <div v-for="c in customers" :key="c.id" class="card p-3 mb-3">
+      <p><strong>ФИО:</strong> {{ c.surname }} {{ c.name }} {{ c.lastName }}</p>
+      <p><strong>Телефон:</strong> {{ c.phone }}</p>
+      <p><strong>Адрес:</strong> {{ c.address }}</p>
+      <button class="btn btn-primary" @click="router.push(`/customers/edit/${c.id}`)">
         Открыть
       </button>
     </div>
 
-    <router-link to="/customers/create" class="btn btn-success"
-      >Создать нового заказчика</router-link
-    >
+    <router-link to="/customers/create" class="btn btn-success">
+      Создать нового заказчика
+    </router-link>
   </div>
 </template>
