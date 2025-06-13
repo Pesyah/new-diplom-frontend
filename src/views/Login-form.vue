@@ -25,7 +25,7 @@ const goToRegister = () => {
 </script>
 
 <template>
-  <div style="margin: 30% 40% 40% 40%; padding: 10px; width: 20%">
+  <div style="margin: 30% 40% 40% 40%; padding: 10px; width: 40%">
     <h1>Вход</h1>
     <input
       style="margin-bottom: 10px; padding: 5px; width: 20vw; font-size: 20px"

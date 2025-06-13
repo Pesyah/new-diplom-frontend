@@ -12,13 +12,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  // server: {
-  //   proxy: {
-  //     '/api': {
-  //       target: 'http://localhost:3000/api/', // целевой сервер
-  //       changeOrigin: true,
-  //       rewrite: (path) => path.replace(/^\/api/, ''), // переписываем путь
-  //     },
-  //   },
-  // },
+  server: {
+    host: '0.0.0.0', // позволяет принимать подключения с других устройств
+    port: 5173, // можно указать любой доступный порт
+  },
 })

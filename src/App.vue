@@ -35,54 +35,69 @@ const isUser = computed(() => authStore.user?.role === 1)
 
 <template>
   <div>
-    <template v-if="!isLoggedIn">
-      <button class="btn btn-primary" @click="router.push('/login')">Войти</button>
-      <button class="btn btn-secondary" style="margin-left: 5vw" @click="router.push('/products')">
-        Список продуктов
-      </button>
-      <button class="btn btn-primary" style="margin-left: 14.8vw" @click="goToCart">
-        Перейти в корзину
-      </button>
-    </template>
-    <template v-if="isLoggedIn">
-      <div v-if="isUser">
-        <button class="btn btn-primary" @click="goToDashboard">На главную</button>
-        <button v-if="isUser" class="btn btn-primary" style="margin-left: 7vw" @click="goToOrders">
-          Мои заказы
-        </button>
-        <button v-if="isUser" class="btn btn-primary" style="margin-left: 14vw" @click="goToCart">
-          Перейти в корзину
-        </button>
-      </div>
+    <!-- Фиксированное меню -->
+    <div class="top-menu border-bottom px-3 py-2 bg-dark" style="z-index: 10000">
+      <template v-if="!isLoggedIn">
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-primary" @click="router.push('/login')">Войти</button>
+          <button class="btn btn-secondary" @click="router.push('/products')">
+            Список продуктов
+          </button>
+          <button class="btn btn-primary" @click="goToCart">Перейти в корзину</button>
+        </div>
+      </template>
 
-      <div v-if="isAdmin">
-        <button class="btn btn-primary" @click="goToDashboard">На главную</button>
-        <button
-          v-if="isAdmin"
-          class="btn btn-secondary"
-          style="margin-left: 7vw"
-          @click="router.push('/products-admin')"
-        >
-          Список продуктов(админ)
-        </button>
-        <button
-          v-if="isAdmin"
-          class="btn btn-secondary"
-          style="margin-left: 19.5vw"
-          @click="router.push('/orders-admin')"
-        >
-          Список заказов(админ)
-        </button>
-      </div>
+      <template v-else>
+        <div v-if="isUser" class="d-flex flex-wrap gap-2">
+          <button class="btn btn-primary" @click="goToDashboard">На главную</button>
+          <button class="btn btn-primary" @click="goToOrders">Мои заказы</button>
+          <button class="btn btn-primary" @click="goToCart">Перейти в корзину</button>
+        </div>
 
-      <button style="margin-top: 5vh" @click="logout" class="btn btn-primary">Выйти</button>
-    </template>
+        <div v-if="isAdmin" class="d-flex flex-wrap gap-2 mt-2">
+          <button class="btn btn-primary" @click="goToDashboard">На главную</button>
+          <button class="btn btn-secondary" @click="router.push('/products-admin')">
+            Список продуктов (админ)
+          </button>
+          <button class="btn btn-secondary" @click="router.push('/orders-admin')">
+            Список заказов (админ)
+          </button>
+          <button class="btn btn-secondary" @click="router.push('/user-report-search')">
+            Формирование отчетов
+          </button>
+        </div>
 
-    <RouterView />
+        <div class="mt-2">
+          <button class="btn btn-danger" @click="logout">Выйти</button>
+        </div>
+      </template>
+    </div>
+
+    <!-- Контент с отступом сверху -->
+    <div class="page-content px-3 py-4">
+      <RouterView />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.menu-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.top-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1050;
+}
+
+.page-content {
+  margin-top: 140px; /* отступ под высоту меню */
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -91,19 +106,6 @@ const isUser = computed(() => authStore.user?.role === 1)
   color: #2c3e50;
   margin-top: 60px;
 }
-
-button {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 8px 16px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 button:hover {
   background-color: #45a049;
 }

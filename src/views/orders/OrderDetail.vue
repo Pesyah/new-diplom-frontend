@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4 text-white">
+  <div style="margin-top: 5vh" class="container py-4 text-white">
     <button class="btn btn-outline-secondary mb-3 text-white" @click="$router.back()">
       <i class="bi bi-arrow-left"></i> Назад
     </button>
@@ -28,6 +28,44 @@
         </ul>
 
         <h4 class="mt-3 text-success">Итог: {{ order.price }} ₽</h4>
+
+        <!-- Чат заказов -->
+        <div v-if="order?.orderChats" class="card bg-dark border-secondary mt-4">
+          <div class="card-body">
+            <h5 class="text-white mb-3">Чат по заказу</h5>
+
+            <div v-if="order.orderChats.orderChatsMessages.length">
+              <div
+                v-for="msg in order.orderChats.orderChatsMessages"
+                :key="msg.id"
+                class="mb-3 p-2 border border-secondary rounded"
+              >
+                <p class="mb-1 text-white">
+                  <strong>{{ msg.user.surname }} {{ msg.user.name }}</strong>
+                  <small class="text-muted"> — {{ formatDate(msg.created_at) }}</small>
+                </p>
+                <p class="text-white mb-0">{{ msg.message }}</p>
+              </div>
+            </div>
+            <div v-else>
+              <p class="text-muted">Сообщений пока нет.</p>
+            </div>
+
+            <!-- Форма отправки сообщения -->
+            <form @submit.prevent="sendMessage" class="mt-3 d-flex gap-2">
+              <input
+                v-model="newMessage"
+                type="text"
+                class="form-control bg-dark text-white border-secondary"
+                placeholder="Введите сообщение"
+                required
+              />
+              <button class="btn btn-outline-success" type="submit">
+                <i class="bi bi-send"></i>
+              </button>
+            </form>
+          </div>
+        </div>
 
         <div v-if="isAdmin" class="mt-4 d-flex gap-2">
           <button class="btn btn-outline-success" @click="approveOrder">
@@ -68,6 +106,24 @@ const order = ref(null)
 
 const isAdmin = computed(() => authStore.user?.role === 2)
 const isUser = computed(() => authStore.user?.role === 1)
+const newMessage = ref('')
+
+const sendMessage = async () => {
+  if (!newMessage.value.trim()) return
+
+  try {
+    await api.post('/orders/send-message-to-chat', {
+      message: newMessage.value,
+      orderId: order.value.id,
+    })
+
+    newMessage.value = ''
+    await fetchOrder() // перезагружаем заказ, чтобы получить новые сообщения
+  } catch (err) {
+    alert('Ошибка при отправке сообщения')
+    console.error(err)
+  }
+}
 
 const fetchOrder = async () => {
   try {

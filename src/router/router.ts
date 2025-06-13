@@ -11,6 +11,8 @@ import CreateProductAdmin from '@/views/products/CreateProductAdmin.vue'
 import EditProductAdmin from '@/views/products/EditProductAdmin.vue'
 import ProductListAdmin from '@/views/products/ProductListAdmin.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
+import UserReportPage from '@/views/report/UserReportPage.vue'
+import UserReportSearch from '@/views/report/UserReportSearch.vue'
 import UserProductView from '@/views/UserProductView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -79,6 +81,18 @@ const routes = [
     path: '/orders-admin',
     name: 'OrdersListAdmin',
     component: OrdersListAdmin,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/user-report-search',
+    name: 'UserReportSearch',
+    component: UserReportSearch,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/admin/user-report',
+    name: 'UserReportPage',
+    component: UserReportPage,
     meta: { requiresAuth: true },
   },
 ]
