@@ -19,6 +19,8 @@ const customerQuery = ref('')
 const carResults = ref([])
 const customerResults = ref([])
 
+const today = new Date().toISOString().split('T')[0] // формат YYYY-MM-DD
+
 watch(carQuery, async (q) => {
   if (!q) return (carResults.value = [])
   try {
@@ -121,15 +123,16 @@ const submit = async () => {
       </div>
 
       <!-- Время и скидка -->
+      <!-- Дата начала -->
       <div class="mb-3">
         <label class="form-label">Дата начала</label>
-        <input v-model="bookingForm.startTime" type="date" class="form-control" />
+        <input v-model="bookingForm.startTime" type="date" class="form-control" :min="today" />
       </div>
 
+      <!-- Дата окончания -->
       <div class="mb-3">
         <label class="form-label">Дата окончания</label>
-
-        <input v-model="bookingForm.endTime" type="date" class="form-control" />
+        <input v-model="bookingForm.endTime" type="date" class="form-control" :min="today" />
       </div>
 
       <div class="mb-3">

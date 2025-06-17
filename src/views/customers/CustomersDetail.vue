@@ -31,11 +31,19 @@ const fieldLabels = {
   phone: 'Телефон',
   address: 'Фактический адрес',
 }
+const today = new Date().toISOString().split('T')[0] // формат YYYY-MM-DD
 
 onMounted(async () => {
   try {
     const { data } = await api.get(`/customers/by-id/${route.params.id}`)
-    form.value = { ...form.value, ...data } // Заполняем существующими значениями
+
+    // Преобразуем дату к нужному формату
+    if (data.passportDate) {
+      const date = new Date(data.passportDate)
+      data.passportDate = date.toISOString().split('T')[0]
+    }
+
+    form.value = { ...form.value, ...data }
   } catch (err) {
     console.error(err)
     alert('Ошибка загрузки заказчика')
@@ -45,7 +53,6 @@ onMounted(async () => {
 const update = async () => {
   try {
     const body = form.value
-    console.log(body)
     delete body['created_at']
     delete body['id']
     await api.patch(`/customers/${route.params.id}`, form.value)
@@ -63,8 +70,18 @@ const update = async () => {
     <h1 class="mb-3">Редактирование заказчика</h1>
     <form @submit.prevent="update" v-if="form">
       <div v-for="(label, key) in fieldLabels" :key="key" class="mb-3">
-        <label class="form-label">{{ label }}</label>
-        <input v-model="form[key]" class="form-control" />
+        <label class="form-label" :for="key">{{ label }}</label>
+
+        <input
+          v-if="key === 'passportDate'"
+          v-model="form[key]"
+          type="date"
+          class="form-control"
+          :id="key"
+          :max="today"
+        />
+
+        <input v-else v-model="form[key]" type="text" class="form-control" :id="key" />
       </div>
       <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>

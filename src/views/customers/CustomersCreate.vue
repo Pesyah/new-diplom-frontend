@@ -33,7 +33,7 @@ const labels: Record<string, string> = {
 
 const masks: Record<string, string | null> = {
   passportNumber: '#### ######',
-  passportDate: '####-##-##',
+  passportDate: null,
   passportIssued: null,
   passportAddress: null,
   passportCode: '###-###',
@@ -43,6 +43,8 @@ const masks: Record<string, string | null> = {
   phone: '+7 (###) ###-##-##',
   address: null,
 }
+
+const today = new Date().toISOString().split('T')[0] // формат YYYY-MM-DD
 
 const submit = async () => {
   try {
@@ -62,8 +64,22 @@ const submit = async () => {
     <form @submit.prevent="submit">
       <div v-for="(value, key) in form" :key="key" class="mb-2">
         <label class="form-label" :for="key">{{ labels[key] }}</label>
+
+        <!-- Особая обработка для поля passportDate -->
         <input
-          v-if="masks[key]"
+          v-if="key === 'passportDate'"
+          v-model="form[key]"
+          type="date"
+          class="form-control"
+          :id="key"
+          :placeholder="labels[key]"
+          :max="today"
+          autocomplete="off"
+        />
+
+        <!-- Маскированные поля -->
+        <input
+          v-else-if="masks[key]"
           v-model="form[key]"
           v-mask="masks[key]"
           type="text"
@@ -72,6 +88,8 @@ const submit = async () => {
           :placeholder="labels[key]"
           autocomplete="off"
         />
+
+        <!-- Обычные текстовые поля -->
         <input
           v-else
           v-model="form[key]"
